@@ -1,0 +1,10 @@
+*
+!.gitignore
+!shell.nix
+!.shellhook
+!.tidyrc
+!.clang-format
+!*.html
+!*.js
+!*.wat
+!src/
