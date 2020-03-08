@@ -1,7 +1,10 @@
 WebAssembly.instantiateStreaming(fetch("./bin/main.wasm"))
     .then(function(object) {
-        var bytes =
-            new Uint8Array(object.instance.exports.memory.buffer, 0, 13);
-        var string = new TextDecoder("utf8").decode(bytes);
+        var buffer = object.instance.exports.memory.buffer;
+        var string =
+            new TextDecoder("utf8").decode(new Uint8Array(buffer, 0, 13));
         console.log(string);
+        console.log(new Uint32Array(buffer.slice(13, 17)));
+        object.instance.exports.mutate();
+        console.log(new Uint32Array(buffer.slice(13, 17)));
     });
