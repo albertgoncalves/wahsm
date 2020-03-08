@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+wat2wasm -o "$WD/bin/main.wasm" "$WD/src/main.wat"
+python -m http.server
