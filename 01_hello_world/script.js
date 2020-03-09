@@ -6,7 +6,7 @@ window.onload = function() {
                 new TextDecoder("utf8").decode(new Uint8Array(buffer, 0, 13));
             console.log(string);
             console.log(new Uint32Array(buffer.slice(13, 17)));
-            object.instance.exports.mutate();
+            object.instance.exports.main();
             console.log(new Uint32Array(buffer.slice(13, 17)));
         });
 }
