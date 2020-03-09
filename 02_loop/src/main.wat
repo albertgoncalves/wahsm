@@ -7,7 +7,7 @@
     (local $index i32)
     (local $value i32)
     (local.set $i (i32.const 0))
-    (local.set $n (i32.const 10))
+    (local.set $n (i32.const 16))
     (; NOTE: `i32` width in bytes => 32/8 => 4 ;)
     (local.set $offset (i32.const 4))
     (block  (; NOTE: `labelidx 1` ;)
@@ -17,18 +17,27 @@
           (if
             (result i32)
             (; NOTE:
-             ;  if ((i - 5) == 0) {
+             ;  if (i == 5) {
              ;    (i * 900000) + (i + 1)
-             ;  } else {
+             ;  } else if (i < 15) {
              ;    1 - i
+             ;  } else {
+             ;    return
              ;  }
              ;)
-            (i32.eqz (i32.sub (local.get $i) (i32.const 5)))
+            (i32.eq (local.get $i) (i32.const 5))
             (then (i32.sub (i32.const 1) (local.get $i)))
             (else
-              (i32.add
-                (i32.mul (local.get $i) (i32.const 900000))
-                (i32.add (local.get $i) (i32.const 1))
+              (if
+                (result i32)
+                (i32.lt_s (local.get $i) (i32.const 15))
+                (then
+                  (i32.add
+                    (i32.mul (local.get $i) (i32.const 900000))
+                    (i32.add (local.get $i) (i32.const 1))
+                  )
+                )
+                (else return)
               )
             )
           )
