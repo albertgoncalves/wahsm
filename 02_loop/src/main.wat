@@ -39,9 +39,9 @@
             )
           )
         )
-        (; NOTE: memory[0x00 + ($x << 2)] = $value;)
+        (; NOTE: memory[0 + ($x << 2)] = $value;)
         (i32.store
-          offset=0x00
+          offset=0
           (i32.shl (local.get $i) (i32.const 2))
           (local.get $value)
         )
