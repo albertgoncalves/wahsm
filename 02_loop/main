@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eu
+
+if [ ! -d bin ]; then
+    mkdir bin
+fi
+
+wat2wasm -o bin/main.wasm src/main.wat
+python -m http.server --bind "$HOST" 8080
