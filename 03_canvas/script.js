@@ -6,7 +6,7 @@ window.onload = function() {
             var buffer = new Uint8Array(
                 object.instance.exports.memory.buffer,
                 0,
-                canvas.width * canvas.height * 4,
+                (canvas.width * canvas.height) << 2,
             );
             var imageData = ctx.createImageData(canvas.width, canvas.height);
             function loop(t) {
