@@ -19,6 +19,7 @@
             (i32.const 256)
           )
         )
+        (; NOTE: (y * 256) == (y << 8) ;)
         (local.set $y_width (i32.shl (local.get $y) (i32.const 8)))
         (local.set $x (i32.const 0))
         (loop $x_continue
@@ -69,7 +70,6 @@
           )
           (i32.store
             offset=0
-            (; NOTE: (x * 256) == (x << 8) ;)
             (i32.shl
               (i32.add (local.get $y_width) (local.get $x))
               (i32.const 2)
