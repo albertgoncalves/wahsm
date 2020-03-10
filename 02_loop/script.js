@@ -5,4 +5,4 @@ window.onload = function() {
             var buffer = object.instance.exports.memory.buffer;
             console.log(new Int32Array(buffer.slice(0, 4 * 16)));
         });
-}
+};

@@ -9,4 +9,4 @@ window.onload = function() {
             object.instance.exports.main();
             console.log(new Uint32Array(buffer.slice(13, 17)));
         });
-}
+};

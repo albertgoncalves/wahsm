@@ -22,8 +22,7 @@
      ;)
     (block $break
       (loop $continue
-        (local.set
-          $value
+        (local.set $value
           (if
             (result i32)
             (i32.eq (local.get $i) (i32.const 5))
