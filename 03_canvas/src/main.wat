@@ -1,5 +1,5 @@
 (module
-  (memory (export "memory") 8)
+  (memory (export "memory") 4)
   (func (export "main") (param $t i32)
     (local $x i32)
     (local $y i32)
@@ -14,7 +14,7 @@
     (local $y_offset i32)
     (local.set $n (i32.const 256))
     (local.set $m (i32.const 8))
-    (local.set $offset (i32.div_u (local.get $t) (i32.const 16)))
+    (local.set $offset (i32.shr_u (local.get $t) (i32.const 4)))
     (block $break
       (local.set $y (i32.const 0))
       (loop $y_continue
