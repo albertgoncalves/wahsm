@@ -1,36 +1,36 @@
 (module
   (memory (export "memory") 4)
-  (func (export "main") (param $t i32)
+  (func (export "main") (param $_t i32)
     (local $x i32)
     (local $y i32)
-    (local $offset i32)
+    (local $t i32)
+    (local $y_t i32)
     (local $y_offset i32)
-    (local $y_width i32)
     (local $red i32)
     (local $green i32)
     (local $blue i32)
     (block $break
-      (local.set $offset (i32.shr_u (local.get $t) (i32.const 4)))
+      (local.set $t (i32.shr_u (local.get $_t) (i32.const 4)))
       (local.set $y (i32.const 0))
       (loop $y_continue
-        (local.set $y_offset
+        (local.set $y_t
           (; NOTE: (k % 256) == (k & (256 - 1)) ;)
           (i32.and
-            (i32.add (local.get $y) (local.get $offset))
+            (i32.add (local.get $y) (local.get $t))
             (i32.const 255)
           )
         )
         (; NOTE: (k * 256) == (k << 8) ;)
-        (local.set $y_width (i32.shl (local.get $y) (i32.const 8)))
+        (local.set $y_offset (i32.shl (local.get $y) (i32.const 8)))
         (local.set $x (i32.const 0))
         (loop $x_continue
           (local.set $red
             (i32.xor
               (i32.and
-                (i32.add (local.get $x) (local.get $offset))
+                (i32.add (local.get $x) (local.get $t))
                 (i32.const 255)
               )
-              (local.get $y_offset)
+              (local.get $y_t)
             )
           )
           (local.set $green
@@ -38,14 +38,14 @@
               (i32.and
                 (i32.add
                   (i32.shl (local.get $x) (i32.const 1))
-                  (local.get $offset)
+                  (local.get $t)
                 )
                 (i32.const 255)
               )
               (i32.and
                 (i32.add
                   (i32.shl (local.get $y) (i32.const 1))
-                  (local.get $offset)
+                  (local.get $t)
                 )
                 (i32.const 255)
               )
@@ -56,23 +56,22 @@
               (i32.and
                 (i32.add
                   (i32.shl (local.get $x) (i32.const 2))
-                  (local.get $offset)
+                  (local.get $t)
                 )
                 (i32.const 255)
               )
               (i32.and
                 (i32.add
                   (i32.shl (local.get $y) (i32.const 2))
-                  (local.get $offset)
+                  (local.get $t)
                 )
                 (i32.const 255)
               )
             )
           )
-          (i32.store
-            offset=0
+          (i32.store offset=0
             (i32.shl
-              (i32.add (local.get $y_width) (local.get $x))
+              (i32.add (local.get $y_offset) (local.get $x))
               (i32.const 2)
             )
             (i32.add
