@@ -74,6 +74,7 @@
               (i32.add (local.get $y_offset) (local.get $x))
               (i32.const 2)
             )
+            (; NOTE: Little-endian! ;)
             (i32.add
               (i32.shl (i32.const 255) (i32.const 24))
               (i32.add
