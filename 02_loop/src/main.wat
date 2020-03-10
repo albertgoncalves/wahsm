@@ -7,47 +7,43 @@
     (local $value i32)
     (local.set $i (i32.const 0))
     (local.set $n (i32.const 16))
-    (block  (; NOTE: `labelidx 1` ;)
-      (loop (; NOTE: `labelidx 0` ;)
+    (; NOTE:
+     ;    do {
+     ;        if (i == 5) {
+     ;            value = 1 - i
+     ;        } else if (15 <= i) {
+     ;            break
+     ;        } else {
+     ;            value = (i << 16) + (i + 1)
+     ;        }
+     ;        memory[0 + ($x << 2)] = value
+     ;        i = i + 1
+     ;    } while (i < n)
+     ;)
+    (block $break
+      (loop $continue
         (local.set
           $value
           (if
             (result i32)
-            (; NOTE:
-             ;  if (i == 5) {
-             ;    (i << 16) + (i + 1)
-             ;  } else if (i < 15) {
-             ;    1 - i
-             ;  } else {
-             ;    return
-             ;  }
-             ;)
             (i32.eq (local.get $i) (i32.const 5))
             (then (i32.sub (i32.const 1) (local.get $i)))
             (else
-              (if
-                (result i32)
-                (i32.lt_s (local.get $i) (i32.const 15))
-                (then
-                  (i32.add
-                    (i32.shl (local.get $i) (i32.const 16))
-                    (i32.add (local.get $i) (i32.const 1))
-                  )
-                )
-                (else return)
+              (br_if $break (i32.le_u (i32.const 15) (local.get $i)))
+              (i32.add
+                (i32.shl (local.get $i) (i32.const 16))
+                (i32.add (local.get $i) (i32.const 1))
               )
             )
           )
         )
-        (; NOTE: memory[0 + ($x << 2)] = $value;)
         (i32.store
           offset=0
           (i32.shl (local.get $i) (i32.const 2))
           (local.get $value)
         )
         (local.set $i (i32.add (local.get $i) (i32.const 1)))
-        (br_if 1 (i32.eq (local.get $i) (local.get $n)))
-        (br 0)
+        (br_if $continue (i32.lt_u (local.get $i) (local.get $n)))
       )
     )
   )
