@@ -14,57 +14,58 @@
       (local.set $y (i32.const 0))
       (loop $y_continue
         (local.set $y_offset
-          (i32.rem_u
+          (; NOTE: (k % 256) == (k & (256 - 1)) ;)
+          (i32.and
             (i32.add (local.get $y) (local.get $offset))
-            (i32.const 256)
+            (i32.const 255)
           )
         )
-        (; NOTE: (y * 256) == (y << 8) ;)
+        (; NOTE: (k * 256) == (k << 8) ;)
         (local.set $y_width (i32.shl (local.get $y) (i32.const 8)))
         (local.set $x (i32.const 0))
         (loop $x_continue
           (local.set $red
             (i32.xor
-              (i32.rem_u
+              (i32.and
                 (i32.add (local.get $x) (local.get $offset))
-                (i32.const 256)
+                (i32.const 255)
               )
               (local.get $y_offset)
             )
           )
           (local.set $green
             (i32.xor
-              (i32.rem_u
+              (i32.and
                 (i32.add
                   (i32.shl (local.get $x) (i32.const 1))
                   (local.get $offset)
                 )
-                (i32.const 256)
+                (i32.const 255)
               )
-              (i32.rem_u
+              (i32.and
                 (i32.add
                   (i32.shl (local.get $y) (i32.const 1))
                   (local.get $offset)
                 )
-                (i32.const 256)
+                (i32.const 255)
               )
             )
           )
           (local.set $blue
             (i32.xor
-              (i32.rem_u
+              (i32.and
                 (i32.add
                   (i32.shl (local.get $x) (i32.const 2))
                   (local.get $offset)
                 )
-                (i32.const 256)
+                (i32.const 255)
               )
-              (i32.rem_u
+              (i32.and
                 (i32.add
                   (i32.shl (local.get $y) (i32.const 2))
                   (local.get $offset)
                 )
-                (i32.const 256)
+                (i32.const 255)
               )
             )
           )
