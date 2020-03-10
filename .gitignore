@@ -5,6 +5,7 @@
 !.tidyrc
 !.clang-format
 !*.html
+!*.css
 !*.js
 !*.wat
 !src/
