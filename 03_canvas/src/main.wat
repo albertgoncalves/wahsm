@@ -75,11 +75,11 @@
               (i32.const 2)
             )
             (; NOTE: Little-endian! ;)
-            (i32.add
+            (i32.or
               (i32.shl (i32.const 255) (i32.const 24))
-              (i32.add
+              (i32.or
                 (i32.shl (local.get $blue) (i32.const 16))
-                (i32.add
+                (i32.or
                   (i32.shl (local.get $green) (i32.const 8))
                   (local.get $red)
                 )
