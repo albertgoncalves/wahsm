@@ -4,7 +4,9 @@
     (local $x i32)
     (local $y i32)
     (local $t i32)
-    (local $y_t i32)
+    (local $y_t0 i32)
+    (local $y_t1 i32)
+    (local $y_t2 i32)
     (local $y_offset i32)
     (local $red i32)
     (local $green i32)
@@ -13,10 +15,28 @@
       (local.set $t (i32.shr_u (local.get $_t) (i32.const 4)))
       (local.set $y (i32.const 0))
       (loop $y_continue
-        (local.set $y_t
+        (local.set $y_t0
           (; NOTE: (k % 256) == (k & (256 - 1)) ;)
           (i32.and
             (i32.add (local.get $y) (local.get $t))
+            (i32.const 255)
+          )
+        )
+        (local.set $y_t1
+          (i32.and
+            (i32.add
+              (i32.shl (local.get $y) (i32.const 1))
+              (local.get $t)
+            )
+            (i32.const 255)
+          )
+        )
+        (local.set $y_t2
+          (i32.and
+            (i32.add
+              (i32.shl (local.get $y) (i32.const 2))
+              (local.get $t)
+            )
             (i32.const 255)
           )
         )
@@ -30,7 +50,7 @@
                 (i32.add (local.get $x) (local.get $t))
                 (i32.const 255)
               )
-              (local.get $y_t)
+              (local.get $y_t0)
             )
           )
           (local.set $green
@@ -42,13 +62,7 @@
                 )
                 (i32.const 255)
               )
-              (i32.and
-                (i32.add
-                  (i32.shl (local.get $y) (i32.const 1))
-                  (local.get $t)
-                )
-                (i32.const 255)
-              )
+              (local.get $y_t1)
             )
           )
           (local.set $blue
@@ -60,13 +74,7 @@
                 )
                 (i32.const 255)
               )
-              (i32.and
-                (i32.add
-                  (i32.shl (local.get $y) (i32.const 2))
-                  (local.get $t)
-                )
-                (i32.const 255)
-              )
+              (local.get $y_t2)
             )
           )
           (i32.store offset=0
