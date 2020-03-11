@@ -23,9 +23,7 @@
     (block $break
       (loop $continue
         (local.set $value
-          (if
-            (result i32)
-            (i32.eq (local.get $i) (i32.const 5))
+          (if (result i32) (i32.eq (local.get $i) (i32.const 5))
             (then (i32.sub (i32.const 1) (local.get $i)))
             (else
               (br_if $break (i32.le_u (i32.const 15) (local.get $i)))
@@ -36,8 +34,7 @@
             )
           )
         )
-        (i32.store
-          offset=0
+        (i32.store offset=0
           (i32.shl (local.get $i) (i32.const 2))
           (local.get $value)
         )

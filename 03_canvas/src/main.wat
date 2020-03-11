@@ -17,26 +17,17 @@
       (loop $y_continue
         (local.set $y_t0
           (; NOTE: (k % 256) == (k & (256 - 1)) ;)
-          (i32.and
-            (i32.add (local.get $y) (local.get $t))
-            (i32.const 255)
-          )
+          (i32.and (i32.add (local.get $y) (local.get $t)) (i32.const 255))
         )
         (local.set $y_t1
           (i32.and
-            (i32.add
-              (i32.shl (local.get $y) (i32.const 1))
-              (local.get $t)
-            )
+            (i32.add (i32.shl (local.get $y) (i32.const 1)) (local.get $t))
             (i32.const 255)
           )
         )
         (local.set $y_t2
           (i32.and
-            (i32.add
-              (i32.shl (local.get $y) (i32.const 2))
-              (local.get $t)
-            )
+            (i32.add (i32.shl (local.get $y) (i32.const 2)) (local.get $t))
             (i32.const 255)
           )
         )
@@ -46,20 +37,14 @@
         (loop $x_continue
           (local.set $red
             (i32.xor
-              (i32.and
-                (i32.add (local.get $x) (local.get $t))
-                (i32.const 255)
-              )
+              (i32.and (i32.add (local.get $x) (local.get $t)) (i32.const 255))
               (local.get $y_t0)
             )
           )
           (local.set $green
             (i32.xor
               (i32.and
-                (i32.add
-                  (i32.shl (local.get $x) (i32.const 1))
-                  (local.get $t)
-                )
+                (i32.add (i32.shl (local.get $x) (i32.const 1)) (local.get $t))
                 (i32.const 255)
               )
               (local.get $y_t1)
@@ -68,10 +53,7 @@
           (local.set $blue
             (i32.xor
               (i32.and
-                (i32.add
-                  (i32.shl (local.get $x) (i32.const 2))
-                  (local.get $t)
-                )
+                (i32.add (i32.shl (local.get $x) (i32.const 2)) (local.get $t))
                 (i32.const 255)
               )
               (local.get $y_t2)
