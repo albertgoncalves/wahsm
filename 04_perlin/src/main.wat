@@ -1,16 +1,18 @@
 (module
+  (memory (export "memory") 2)
+  (; NOTE:
+   ;    memory       | start (bytes)     | length (bytes) | layout                | type
+   ;   --------------+-------------------+----------------+-----------------------+-----------------
+   ;    gradients    | 0                 | 128*2*2        | [x1, y1, ...]         | [u16; N * 2]
+   ;    permutations | 128*2*2           | 128*4*2        | [x1, y1, ...]         | [f32; N * 2]
+   ;    pixels       | 128*2*2 + 128*4*2 | 128*128*4      | [r1, g1, b1, a1, ...] | [u8; N * N * 4]
+   ;)
   (global $N    i32 (i32.const 128))
   (global $NN   i32 (i32.const 16384))     (; NOTE: N * N == NN ;)
   (global $T    i32 (i32.const 5))
   (global $PI_2 f32 (f32.const 6.2831855)) (; NOTE: PI * 2.0 == PI_2 ;)
   (global $Z    f32 (f32.const 0.004))
   (global $W    f32 (f32.const 2.5))
-  (memory (export "memory") 2)
-  (; NOTE:
-   ;    `gradients`    -> [0,         128*2*2)                 -> [x1, y1, ...]: [u16; N * 2]
-   ;    `permutations` -> [128*2*2,   128*2*2 + 128*2*2*2)     -> [x1, y1, ...]: [f32; N * 2]
-   ;    `pixels`       -> [128*2*2*3, 128*2*2*3 + 128*128*2*2) -> [r1, g1, b1, a1, ...]: [u8; N * N]
-   ;)
   (func $get_gradient
       (param $origin_x   f32) (param $origin_y   f32)
       (param $gradient_x f32) (param $gradient_y f32)
@@ -68,23 +70,24 @@
     (f32.store offset=512 align=4 (local.get $i) (local.get $x))
     (f32.store offset=516 align=4 (local.get $i) (local.get $y))
   )
-  (func $get_pixel_index (param $j i32) (param $i i32) (result i32)
+  (func $set_pixel
+      (param $j i32) (param $i i32)
+      (param $r i32) (param $g i32) (param $b i32) (param $a i32)
     (; NOTE:
      ;    j -> column -> x
      ;    i -> row    -> y
      ;)
-    (i32.shl
-      (i32.add (i32.shl (local.get $i) (i32.const 7)) (local.get $j))
-      (i32.const 2)
+    (local $index i32)
+    (local.set $index
+      (i32.shl
+        (i32.add (i32.shl (local.get $i) (i32.const 7)) (local.get $j))
+        (i32.const 2)
+      )
     )
-  )
-  (func $set_pixel
-      (param $i i32)
-      (param $r i32) (param $g i32) (param $b i32) (param $a i32)
-    (i32.store8 offset=1536 align=1 (local.get $i) (local.get $r))
-    (i32.store8 offset=1537 align=1 (local.get $i) (local.get $g))
-    (i32.store8 offset=1538 align=1 (local.get $i) (local.get $b))
-    (i32.store8 offset=1539 align=1 (local.get $i) (local.get $a))
+    (i32.store8 offset=1536 align=1 (local.get $index) (local.get $r))
+    (i32.store8 offset=1537 align=1 (local.get $index) (local.get $g))
+    (i32.store8 offset=1538 align=1 (local.get $index) (local.get $b))
+    (i32.store8 offset=1539 align=1 (local.get $index) (local.get $a))
   )
   (func (export "main")
     (call $set_gradient
@@ -116,14 +119,16 @@
       (f32.const 10.4)
     )
     (call $set_pixel
-      (call $get_pixel_index (i32.const 127) (i32.const 1))
+      (i32.const 1)
+      (i32.const 1)
       (i32.const 1)
       (i32.const 2)
       (i32.const 3)
       (i32.const 128)
     )
     (call $set_pixel
-      (call $get_pixel_index (i32.const 127) (i32.const 127))
+      (i32.const 127)
+      (i32.const 127)
       (i32.const 2)
       (i32.const 3)
       (i32.const 4)

@@ -16,13 +16,13 @@ window.onload = function() {
                                            typedLength.gradient);
             var permutations = new Float32Array(
                 memory, byteOffset.permutations, typedLength.permutations);
-            var pixels = new Uint8Array(memory, byteOffset.pixels,
-                                        typedLength.pixels)
+            var pixels =
+                new Uint8Array(memory, byteOffset.pixels, typedLength.pixels);
             object.instance.exports.main();
             console.log(gradients.slice(126 << 1, 128 << 1));
             console.log(permutations.slice(0, 16));
             console.log(permutations.slice(126 << 1, 128 << 1));
-            console.log(pixels.slice((2 << 9) - 4, 2 << 9))
-            console.log(pixels.slice((128 << 9) - 4, 128 << 9))
+            console.log(pixels.slice((128 << 2) + 4, (128 << 2) + 8));
+            console.log(pixels.slice((128 << 9) - 4, 128 << 9));
         });
 };
