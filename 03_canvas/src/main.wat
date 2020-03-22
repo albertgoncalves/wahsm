@@ -11,6 +11,7 @@
     (local $red i32)
     (local $green i32)
     (local $blue i32)
+    (local $index i32)
     (block $break
       (local.set $t (i32.shr_u (local.get $_t) (i32.const 4)))
       (local.set $y (i32.const 0))
@@ -59,23 +60,17 @@
               (local.get $y_t2)
             )
           )
-          (i32.store offset=0
+          (local.set $index
             (i32.shl
               (i32.add (local.get $y_offset) (local.get $x))
               (i32.const 2)
             )
-            (; NOTE: Little-endian! ;)
-            (i32.or
-              (i32.shl (i32.const 255) (i32.const 24))
-              (i32.or
-                (i32.shl (local.get $blue) (i32.const 16))
-                (i32.or
-                  (i32.shl (local.get $green) (i32.const 8))
-                  (local.get $red)
-                )
-              )
-            )
           )
+          (; NOTE: `https://rsms.me/wasm-intro` ;)
+          (i32.store8 offset=0 align=1 (local.get $index) (local.get $red))
+          (i32.store8 offset=1 align=1 (local.get $index) (local.get $green))
+          (i32.store8 offset=2 align=1 (local.get $index) (local.get $blue))
+          (i32.store8 offset=3 align=1 (local.get $index) (i32.const 255))
           (local.set $x (i32.add (local.get $x) (i32.const 1)))
           (br_if $x_continue (i32.lt_u (local.get $x) (i32.const 256)))
         )
