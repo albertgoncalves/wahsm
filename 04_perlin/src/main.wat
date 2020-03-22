@@ -5,10 +5,10 @@
   (global $PI_2 f32 (f32.const 6.2831855)) (; NOTE: PI * 2.0 == PI_2 ;)
   (global $Z    f32 (f32.const 0.004))
   (global $W    f32 (f32.const 2.5))
-  (memory (export "memory") 4)
+  (memory (export "memory") 1)
   (; NOTE:
-        `gradients`    -> [0, 128*2*2)                   -> [x1, y1, ...]: [u16; N * 2]
-        `permutations` -> [128*2*2, 128*2*2 + 128*2*2*2) -> [x1, y1, ...]: [f32; N * 2]
+   ;    `gradients`    -> [0, 128*2*2)                   -> [x1, y1, ...]: [u16; N * 2]
+   ;    `permutations` -> [128*2*2, 128*2*2 + 128*2*2*2) -> [x1, y1, ...]: [f32; N * 2]
    ;)
   (func $get_gradient
       (param $origin_x   f32) (param $origin_y   f32)
