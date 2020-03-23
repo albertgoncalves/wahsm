@@ -1,3 +1,5 @@
+"use strict";
+
 window.onload = function() {
     WebAssembly.instantiateStreaming(fetch("./bin/main.wasm"))
         .then(function(object) {
