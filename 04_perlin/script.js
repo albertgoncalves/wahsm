@@ -15,7 +15,8 @@ function shuffle(array) {
 window.onload = function() {
     WebAssembly.instantiateStreaming(fetch("./bin/main.wasm"))
         .then(function(object) {
-            var i;
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
             var memory = object.instance.exports.memory.buffer;
             var byteOffset = {
                 permutations: 0,
@@ -29,6 +30,7 @@ window.onload = function() {
             };
             var permutations = new Int32Array(memory, byteOffset.permutations,
                                               typedLength.permutations);
+            var i;
             for (i = 0; i < typedLength.permutations; i++) {
                 permutations[i] = i;
             }
@@ -43,10 +45,8 @@ window.onload = function() {
             var pixels =
                 new Uint8Array(memory, byteOffset.pixels, typedLength.pixels);
             object.instance.exports.main();
-            console.log(permutations.slice(0, 8));
-            console.log(permutations.slice(126, 128));
-            console.log(gradients.slice(124 << 1, 128 << 1));
-            console.log(pixels.slice((128 << 2), (128 << 2) + 8));
-            console.log(pixels.slice((128 << 9) - 8, 128 << 9));
+            var imageData = ctx.createImageData(canvas.width, canvas.height);
+            imageData.data.set(pixels);
+            ctx.putImageData(imageData, 0, 0);
         });
 };
