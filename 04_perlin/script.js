@@ -44,11 +44,13 @@ window.onload = function() {
             }
             var pixels =
                 new Uint8Array(memory, byteOffset.pixels, typedLength.pixels);
-            console.time("object.instance.exports.main()");
-            object.instance.exports.main();
-            console.timeEnd("object.instance.exports.main()");
             var imageData = ctx.createImageData(canvas.width, canvas.height);
-            imageData.data.set(pixels);
-            ctx.putImageData(imageData, 0, 0);
+            function loop(t) {
+                window.requestAnimationFrame(loop);
+                object.instance.exports.main(t);
+                imageData.data.set(pixels);
+                ctx.putImageData(imageData, 0, 0);
+            }
+            loop(0);
         });
 };

@@ -6,4 +6,6 @@ canvas {
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;
+    width: 512px;
+    height: 512px;
 }
