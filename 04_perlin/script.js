@@ -17,6 +17,7 @@ window.onload = function() {
         .then(function(object) {
             var canvas = document.getElementById("canvas");
             var ctx = canvas.getContext("2d");
+            ctx.imageSmoothingEnabled = false;
             var memory = object.instance.exports.memory.buffer;
             var byteOffset = {
                 permutations: 0,

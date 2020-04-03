@@ -5,6 +5,7 @@ window.onload = function() {
         .then(function(object) {
             var canvas = document.getElementById("canvas");
             var ctx = canvas.getContext("2d");
+            ctx.imageSmoothingEnabled = false;
             var buffer =
                 new Uint8Array(object.instance.exports.memory.buffer, 0,
                                (canvas.width * canvas.height) << 2);
