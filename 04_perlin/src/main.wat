@@ -1,12 +1,12 @@
 (module
   (memory (export "memory") 2)
   (; NOTE:
-   ;    memory       | byte offset     | byte length    | layout                | type
-   ;   --------------+-----------------+----------------+-----------------------+-----------------
-   ;    permutations | 0               | 128*4          | [p1, p2, ...]         | [u32; 128]
-   ;    gradients    | 128*4           | 128*4*2        | [x1, y1, x2, y2, ...] | [f32; 128*2]
-   ;    values       | 128*4 + 128*4*2 | 128*128*4      | [v1, v2, ...]         | [f32; 128*128]
-   ;    pixels       | 128*4 + 128*4*2 | 128*128*4      | [r1, g1, b1, a1, ...] | [u8; 128*128*4]
+   ;    memory       | byte offset   | byte length | layout                | type
+   ;   --------------+---------------+-------------+-----------------------+-----------------
+   ;    permutations | 0             | 128         | [p1, p2, ...]         | [u8; 128]
+   ;    gradients    | 128           | 128*4*2     | [x1, y1, x2, y2, ...] | [f32; 128*2]
+   ;    values       | 128 + 128*4*2 | 128*128*4   | [v1, v2, ...]         | [f32; 128*128]
+   ;    pixels       | 128 + 128*4*2 | 128*128*4   | [r1, g1, b1, a1, ...] | [u8; 128*128*4]
    ;)
   (global $RESOLUTION f32 (f32.const 32.0))
   (func $get_gradient (param $origin_x f32) (param $origin_y f32)
@@ -54,10 +54,10 @@
     (i32.shl
       (i32.and
         (i32.add
-          (i32.load offset=0 align=4
+          (i32.load8_u offset=0 align=1
             (i32.shl (i32.and (local.get $x) (i32.const 127)) (i32.const 2))
           )
-          (i32.load offset=0 align=4
+          (i32.load8_u offset=0 align=1
             (i32.shl (i32.and (local.get $y) (i32.const 127)) (i32.const 2))
           )
         )
@@ -97,8 +97,8 @@
       (call $get_gradient
         (local.get $x_0f)
         (local.get $y_0f)
-        (f32.load offset=512 align=4 (local.get $index))
-        (f32.load offset=516 align=4 (local.get $index))
+        (f32.load offset=128 align=4 (local.get $index))
+        (f32.load offset=132 align=4 (local.get $index))
         (local.get $x)
         (local.get $y)
       )
@@ -110,8 +110,8 @@
       (call $get_gradient
         (local.get $x_1f)
         (local.get $y_0f)
-        (f32.load offset=512 align=4 (local.get $index))
-        (f32.load offset=516 align=4 (local.get $index))
+        (f32.load offset=128 align=4 (local.get $index))
+        (f32.load offset=132 align=4 (local.get $index))
         (local.get $x)
         (local.get $y)
       )
@@ -123,8 +123,8 @@
       (call $get_gradient
         (local.get $x_0f)
         (local.get $y_1f)
-        (f32.load offset=512 align=4 (local.get $index))
-        (f32.load offset=516 align=4 (local.get $index))
+        (f32.load offset=128 align=4 (local.get $index))
+        (f32.load offset=132 align=4 (local.get $index))
         (local.get $x)
         (local.get $y)
       )
@@ -136,8 +136,8 @@
       (call $get_gradient
         (local.get $x_1f)
         (local.get $y_1f)
-        (f32.load offset=512 align=4 (local.get $index))
-        (f32.load offset=516 align=4 (local.get $index))
+        (f32.load offset=128 align=4 (local.get $index))
+        (f32.load offset=132 align=4 (local.get $index))
         (local.get $x)
         (local.get $y)
       )
@@ -194,7 +194,7 @@
             (local.get $y_noise)
           )
         )
-        (f32.store offset=1536 align=4
+        (f32.store offset=1152 align=4
           (i32.shl (i32.add (local.get $y_index) (local.get $x)) (i32.const 2))
           (local.get $value)
         )
@@ -218,7 +218,7 @@
         (f32.mul
           (f32.div
             (f32.sub
-              (f32.load offset=1536 align=4 (local.get $index))
+              (f32.load offset=1152 align=4 (local.get $index))
               (local.get $min)
             )
             (local.get $delta)
@@ -227,10 +227,10 @@
         )
       )
       (local.set $pixel (i32.trunc_f32_u (local.get $value)))
-      (i32.store8 offset=1536 align=1 (local.get $index) (local.get $pixel))
-      (i32.store8 offset=1537 align=1 (local.get $index) (local.get $pixel))
-      (i32.store8 offset=1538 align=1 (local.get $index) (local.get $pixel))
-      (i32.store8 offset=1539 align=1 (local.get $index) (i32.const 255))
+      (i32.store8 offset=1152 align=1 (local.get $index) (local.get $pixel))
+      (i32.store8 offset=1153 align=1 (local.get $index) (local.get $pixel))
+      (i32.store8 offset=1154 align=1 (local.get $index) (local.get $pixel))
+      (i32.store8 offset=1155 align=1 (local.get $index) (i32.const 255))
       (local.set $i (i32.add (local.get $i) (i32.const 1)))
       (br_if $i_continue (i32.lt_u (local.get $i) (i32.const 16384)))
     )

@@ -21,15 +21,15 @@ window.onload = function() {
             var memory = object.instance.exports.memory.buffer;
             var byteOffset = {
                 permutations: 0,
-                gradients: 128 << 2,
-                pixels: (128 << 2) * 3,
+                gradients: 128,
+                pixels: 128 + (128 << 3)
             };
             var typedLength = {
                 permutations: 128,
                 gradients: 128 << 1,
                 pixels: 128 << 9,
             };
-            var permutations = new Int32Array(memory, byteOffset.permutations,
+            var permutations = new Uint8Array(memory, byteOffset.permutations,
                                               typedLength.permutations);
             var i;
             for (i = 0; i < typedLength.permutations; i++) {
