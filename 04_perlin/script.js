@@ -3,7 +3,7 @@
 var PI_2 = Math.PI * 2;
 
 function shuffle(array) {
-    for (var i = array.length - 1; 0 < i; i--) {
+    for (var i = array.length - 1; 0 < i; --i) {
         var j = Math.floor(Math.random() * (i + 1));
         var tmp = array[i];
         array[i] = array[j];
@@ -32,7 +32,7 @@ window.onload = function() {
             var permutations = new Uint8Array(memory, byteOffset.permutations,
                                               typedLength.permutations);
             var i;
-            for (i = 0; i < typedLength.permutations; i++) {
+            for (i = 0; i < typedLength.permutations; ++i) {
                 permutations[i] = i;
             }
             shuffle(permutations);
