@@ -29,14 +29,16 @@ window.onload = function() {
                 gradients: 128 << 1,
                 pixels: 128 << 9,
             };
-            var permutations = new Uint8Array(memory, byteOffset.permutations,
+            var permutations = new Uint8Array(memory,
+                                              byteOffset.permutations,
                                               typedLength.permutations);
             var i;
             for (i = 0; i < typedLength.permutations; ++i) {
                 permutations[i] = i;
             }
             shuffle(permutations);
-            var gradients = new Float32Array(memory, byteOffset.gradients,
+            var gradients = new Float32Array(memory,
+                                             byteOffset.gradients,
                                              typedLength.gradient);
             for (i = 0; i < typedLength.gradients; i += 2) {
                 var theta = PI_2 * Math.random();

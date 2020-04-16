@@ -6,9 +6,9 @@ window.onload = function() {
             var canvas = document.getElementById("canvas");
             var ctx = canvas.getContext("2d");
             ctx.imageSmoothingEnabled = false;
-            var buffer =
-                new Uint8Array(object.instance.exports.memory.buffer, 0,
-                               (canvas.width * canvas.height) << 2);
+            var buffer = new Uint8Array(object.instance.exports.memory.buffer,
+                                        0,
+                                        (canvas.width * canvas.height) << 2);
             var imageData = ctx.createImageData(canvas.width, canvas.height);
             function loop(t) {
                 window.requestAnimationFrame(loop);
