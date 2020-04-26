@@ -65,7 +65,7 @@
             (i32.const 2)
           )
         )
-        (; NOTE: `https://rsms.me/wasm-intro` ;)
+        (; NOTE: See `https://rsms.me/wasm-intro`. ;)
         (i32.store8 offset=0 align=1 (local.get $index) (local.get $red))
         (i32.store8 offset=1 align=1 (local.get $index) (local.get $green))
         (i32.store8 offset=2 align=1 (local.get $index) (local.get $blue))
