@@ -167,9 +167,8 @@
     (local $delta f32)
     (local $offset f32)
     (local $pixel i32)
-    (local.set $max (f32.const 0.0))
-    (; NOTE: That's close to `f32`'s *max*, right? ;)
-    (local.set $min (f32.const 3.4e+38))
+    (local.set $max (f32.const -inf))
+    (local.set $min (f32.const inf))
     (local.set $offset (f32.div (local.get $t) (f32.const 1024.0)))
     (local.set $y (i32.const 0))
     (loop $y_continue
