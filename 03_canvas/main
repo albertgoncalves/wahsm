@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+set -eu
 
 if [ ! -d bin ]; then
     mkdir bin
