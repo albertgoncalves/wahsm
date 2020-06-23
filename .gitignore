@@ -3,6 +3,7 @@
 !shell.nix
 !.shellhook
 !README.md
+!cover.gif
 !.tidyrc
 !.clang-format
 !*.html
