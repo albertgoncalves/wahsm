@@ -1,10 +1,12 @@
 # wahsm
 
-Played around with `wasm` via `wat`.
-- `03_canvas` is a direct translation of [this](https://github.com/albertgoncalves/werkshop/blob/master/03_canvas_buffer/src/main.ts) [animation](https://albertgoncalves.github.io/werkshop/03_canvas_buffer/index.html)
-- `04_perlin` is an animation generated with [Perlin noise](https://en.wikipedia.org/wiki/Perlin_noise), _slow_-motion **gif** captured via [chrome-timeline-to-gif](https://hospodarets.com/demos/chrome-timeline-to-gif/)
+Played around with [wasm](https://webassembly.org/) by way of [wat](https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format).
 
 <div align="center"><img src="cover.gif"></div>
+
+<p align="center">
+    <strong>.gif</strong> capture via <a href=https://hospodarets.com/demos/chrome-timeline-to-gif/>chrome-timeline-to-gif</a>
+</p>
 
 
 Needed things
