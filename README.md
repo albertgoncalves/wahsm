@@ -6,9 +6,11 @@ Played around with `wasm` via `wat`.
 
 <div align="center"><img src="cover.gif"></div>
 
+
 Needed things
 ---
 *   [Nix](https://nixos.org/nix/)
+*   [Disabled cache](https://stackoverflow.com/questions/5690269/disabling-chrome-cache-for-website-development)
 
 Quick start
 ---
