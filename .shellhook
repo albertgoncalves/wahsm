@@ -19,26 +19,18 @@ sedtrailing () {
 export -f sedtrailing
 
 htmlall () {
-    find \
-        . \
-        -type f \
-        -name '*.html' \
-        -exec bash -c '
-            echo "$1"
-            tidy -config "$WD/.tidyrc" -q -m "$1"
-            sedtrailing "$1"
-        ' bash {} \;
+    find . -type f -name '*.html' -exec bash -c '
+        echo "$1"
+        tidy -config "$WD/.tidyrc" -q -m "$1"
+        sedtrailing "$1"
+    ' bash {} \;
 }
 
 jsall () {
-    find \
-        . \
-        -type f \
-        -name '*.js' \
-        -exec bash -c '
-            echo "$1"
-            clang-format -i "$1"
-        ' bash {} \;
+    find . -type f -name '*.js' -exec bash -c '
+        echo "$1"
+        clang-format -i "$1"
+    ' bash {} \;
 }
 
 export -f htmlall
