@@ -32,15 +32,14 @@ window.onload = function() {
             var permutations = new Uint8Array(memory,
                                               byteOffset.permutations,
                                               typedLength.permutations);
-            var i;
-            for (i = 0; i < typedLength.permutations; ++i) {
+            for (var i = 0; i < typedLength.permutations; ++i) {
                 permutations[i] = i;
             }
             shuffle(permutations);
             var gradients = new Float32Array(memory,
                                              byteOffset.gradients,
                                              typedLength.gradient);
-            for (i = 0; i < typedLength.gradients; i += 2) {
+            for (var i = 0; i < typedLength.gradients; i += 2) {
                 var theta = PI_2 * Math.random();
                 gradients[i] = Math.cos(theta);
                 gradients[i + 1] = Math.sin(theta);
