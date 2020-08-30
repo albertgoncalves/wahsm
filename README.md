@@ -11,7 +11,7 @@ Played around with [wasm](https://webassembly.org/) by way of [wat](https://deve
 
 Needed things
 ---
-*   [Nix](https://nixos.org/nix/)
+*   [Nix](https://nixos.org/download.html)
 *   [Disabled cache](https://stackoverflow.com/questions/5690269/disabling-chrome-cache-for-website-development)
 
 Quick start
